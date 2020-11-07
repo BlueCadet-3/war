@@ -1,0 +1,65 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+:root {
+  --bg-main: #000000;
+  --bg-acc: #FFFFFF;
+  --table: #008C3D;
+  --txt-01: #333333;
+  --txt-02: #444444;
+}
+
+body {
+  background-color: var(--bg-main);
+  width: 100vw;
+}
+
+header {
+  background-color: var(--bg-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 10vh;
+  max-height: 10vh;
+  font-size: 2rem;
+  color: var(--txt-02);
+}
+
+#msg {
+  background-color: var(--bg-acc);
+  min-height: 5vh;
+  max-height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5vmin;
+}
+
+#table {
+  background-color: var(--table);
+  background-image: url("/images/bg.jpg");
+  background-position: center;
+  background-size: cover;
+  height: 80vh;
+}
+
+footer {
+  background-color: var(--bg-main);
+  min-height: 5vmin;
+  max-height: 5vmin;
+  display: flex;
+  justify-content: center;
+  padding: 0.6vmin;
+}
+
+#replay {
+  font-size: 0.8rem;
+  border: 4px dotted var(--table);
+  border-radius: 20px;
+  padding: 0.6vmin;
+}
