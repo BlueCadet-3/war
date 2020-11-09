@@ -36,6 +36,8 @@ let cpuDeck = [];
 /*----- cached element references -----*/
 
 const msg = document.getElementById('msg');
+const userRow = document.getElementById('userRow');
+const cpuRow = document.getElementById('cpuRow');
 const replay = document.getElementById('replay');
 
 /*----- event listeners -----*/
@@ -49,7 +51,6 @@ function init() {
   deck.buildDeck();
   shuffleDeck(deck);
   dealCards(shufDeck);
-  makeBattle();
 }
 
 function shuffleDeck(deck) {
@@ -81,6 +82,7 @@ function makeBattle() {
     console.log(userCard.value, cpuCard.value);
     cpuDeck.push(cpuCard, userCard);
   }
+  render(userCard, cpuCard);
   console.log(userDeck.length, cpuDeck.length);
   getOutcome();
 }
@@ -91,11 +93,11 @@ function makeWar(userCard, cpuCard) {
   let cpuCard2 = cpuDeck.shift();
   let cpuCard3 = cpuDeck.shift();
   if (userCard3.value > cpuCard3.value) {
+    console.log("User: " + userCard.value + userCard2.value + userCard3.value, "CPU: " + cpuCard.value + cpuCard2.value + cpuCard3.value);
     userDeck.push(userCard, userCard2, userCard3, cpuCard, cpuCard2, cpuCard3);
-    console.log(userCard3.value, cpuCard3.value);
   } else {
+    console.log("User: " + userCard.value + userCard2.value + userCard3.value, "CPU: " + cpuCard.value + cpuCard2.value + cpuCard3.value);
     cpuDeck.push(userCard, userCard2, userCard3, cpuCard, cpuCard2, cpuCard3);
-    console.log(userCard3.value, cpuCard3.value);
   }
 }
 
@@ -104,7 +106,24 @@ function getOutcome() {
     console.log("You won the war!");
   } else if (userDeck.length === 0) {
     console.log("You lose the war");
+  } else {
+    console.log("Keep battling!");
   }
 }
+
+function render(userCard, cpuCard) {
+  userRow.innerHTML = `<div class="card ${userCard.suit}${userCard.rank}"></div>`;
+  cpuRow.innerHTML = `<div class="card ${cpuCard.suit}${cpuCard.rank}"></div>`;
+}
+
+// function render(deck, container) {
+//   container.innerHTML = '';
+//   // Let's build the cards as a string of HTML
+//   // Use reduce when you want to 'reduce' the array into a single thing - in this case a string of HTML markup 
+//   const cardsHtml = deck.reduce(function(html, card) {
+//     return html + `<div class="card ${card.face}"></div>`;
+//   }, '');
+//   container.innerHTML = cardsHtml;
+// }
 
 init();

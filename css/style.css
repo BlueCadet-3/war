@@ -46,6 +46,20 @@ header {
   background-position: center;
   background-size: cover;
   height: 80vh;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+}
+
+#cpuRow {
+  grid-row: 1;
+  display: flex;
+  justify-content: center;
+}
+
+#userRow {
+  grid-row: 3;
+  display: flex;
+  justify-content: center;
 }
 
 footer {
