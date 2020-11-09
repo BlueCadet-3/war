@@ -40,12 +40,15 @@ const replay = document.getElementById('replay');
 
 /*----- event listeners -----*/
 
+replay.addEventListener('click', init);
 
 
 /*----- functions -----*/
 
 function init() {
   deck.buildDeck();
+  shuffleDeck(deck);
+  dealCards(shufDeck);
 }
 
 function shuffleDeck(deck) {
@@ -53,7 +56,14 @@ function shuffleDeck(deck) {
   while (tempDeck.length) {
     const rndIdx = Math.floor(Math.random() * tempDeck.length);
     shufDeck.push(tempDeck.splice(rndIdx, 1)[0]);
+  }
 }
+
+function dealCards(deck) {
+  while (shufDeck.length > 0) {
+  userDeck.push(shufDeck.shift());
+  cpuDeck.push(shufDeck.shift());
+  }
 }
 
 init();
