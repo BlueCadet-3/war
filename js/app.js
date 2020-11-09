@@ -49,6 +49,7 @@ function init() {
   deck.buildDeck();
   shuffleDeck(deck);
   dealCards(shufDeck);
+  makeBattle();
 }
 
 function shuffleDeck(deck) {
@@ -69,10 +70,40 @@ function dealCards(deck) {
 function makeBattle() {
   let userCard = userDeck.shift();
   let cpuCard = cpuDeck.shift();
-  if (userCard[values] > cpuCard[values]) {
+  if (userCard.value === cpuCard.value) {
+    console.log("Going to war!");
+    console.log(userCard.value, cpuCard.value);
+    makeWar(userCard, cpuCard);
+  } else if (userCard.value > cpuCard.value) {
+    console.log(userCard.value, cpuCard.value);
     userDeck.push(userCard, cpuCard);
   } else {
-    cpuDeck.push(userCard, cpuCard);
+    console.log(userCard.value, cpuCard.value);
+    cpuDeck.push(cpuCard, userCard);
+  }
+  console.log(userDeck.length, cpuDeck.length);
+  getOutcome();
+}
+
+function makeWar(userCard, cpuCard) {
+  let userCard2 = userDeck.shift();
+  let userCard3 = userDeck.shift();
+  let cpuCard2 = cpuDeck.shift();
+  let cpuCard3 = cpuDeck.shift();
+  if (userCard3.value > cpuCard3.value) {
+    userDeck.push(userCard, userCard2, userCard3, cpuCard, cpuCard2, cpuCard3);
+    console.log(userCard3.value, cpuCard3.value);
+  } else {
+    cpuDeck.push(userCard, userCard2, userCard3, cpuCard, cpuCard2, cpuCard3);
+    console.log(userCard3.value, cpuCard3.value);
+  }
+}
+
+function getOutcome() {
+  if (userDeck.length === 52) {
+    console.log("You won the war!");
+  } else if (userDeck.length === 0) {
+    console.log("You lose the war");
   }
 }
 
