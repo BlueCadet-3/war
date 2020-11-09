@@ -61,8 +61,18 @@ function shuffleDeck(deck) {
 
 function dealCards(deck) {
   while (shufDeck.length > 0) {
-  userDeck.push(shufDeck.shift());
-  cpuDeck.push(shufDeck.shift());
+    userDeck.push(shufDeck.shift());
+    cpuDeck.push(shufDeck.shift());
+  }
+}
+
+function makeBattle() {
+  let userCard = userDeck.shift();
+  let cpuCard = cpuDeck.shift();
+  if (userCard[values] > cpuCard[values]) {
+    userDeck.push(userCard, cpuCard);
+  } else {
+    cpuDeck.push(userCard, cpuCard);
   }
 }
 
