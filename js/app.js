@@ -32,17 +32,23 @@ const deck = new Deck();
 let shufDeck = [];
 let userDeck = [];
 let cpuDeck = [];
+let outcome = null;
 
 /*----- cached element references -----*/
 
 const msg = document.getElementById('msg');
+const cpuCount = document.getElementById('cpuCount');
+const cpuOnDeck = document.getElementById('cpuOnDeck');
 const cpuPlay = document.getElementById('cpuPlay');
+const userCount = document.getElementById('userCount');
+const userOnDeck = document.getElementById('userOnDeck');
 const userPlay = document.getElementById('userPlay');
 const replay = document.getElementById('replay');
 
 /*----- event listeners -----*/
 
 replay.addEventListener('click', init);
+userOnDeck.addEventListener('click', makeBattle);
 
 
 /*----- functions -----*/
@@ -107,6 +113,7 @@ function getOutcome() {
   } else if (userDeck.length === 0) {
     console.log("You lose the war");
   } else {
+    let outcome = null;
     console.log("Keep battling!");
   }
 }
@@ -114,6 +121,9 @@ function getOutcome() {
 function render(userCard, cpuCard) {
   cpuPlay.innerHTML = `<div class="card ${cpuCard.suit}${cpuCard.rank}"></div>`;
   userPlay.innerHTML = `<div class="card ${userCard.suit}${userCard.rank}"></div>`;
+  cpuCount.innerText = cpuDeck.length;
+  userCount.innerText = userDeck.length;
+  replay.style.visibility = outcome ? 'visible' : 'hidden';
 }
 
 init();
