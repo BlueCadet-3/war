@@ -42,7 +42,7 @@ header {
 }
 
 #msg {
-  position: absolute;
+  position: relative;
 }
 
 #userCount {
@@ -75,6 +75,20 @@ header {
 #cpuPlay {
   grid-row: 2;
   grid-column: 3;
+  display: flex;
+  justify-content: center;
+}
+
+#cpuPlay2 {
+  grid-row: 2;
+  grid-column: 4;
+  display: flex;
+  justify-content: center;
+}
+
+#cpuPlay3 {
+  grid-row: 2;
+  grid-column: 5;
   display: flex;
   justify-content: center;
 }

@@ -55,10 +55,15 @@ userOnDeck.addEventListener('click', makeBattle);
 /*----- functions -----*/
 
 function init() {
+  if (deck.cards.length === 52) {
+    return;
+  } else {
+  deck.buildDeck();
   shuffleDeck(deck);
   document.getElementById('shuffle').play();
   dealCards(shufDeck);
   render();
+  }
 }
 
 function shuffleDeck(deck) {
@@ -97,11 +102,13 @@ function makeWar(userCard, cpuCard) {
   let userCard3 = userDeck.shift();
   let cpuCard2 = cpuDeck.shift();
   let cpuCard3 = cpuDeck.shift();
+  document.getElementById('userPlay2').innerHTML = `<div class="card ${userCard2.suit}${userCard2.rank}"></div>`;
+  document.getElementById('userPlay3').innerHTML = `<div class="card ${userCard3.suit}${userCard3.rank}"></div>`;
+  document.getElementById('cpuPlay2').innerHTML = `<div class="card ${cpuCard2.suit}${cpuCard2.rank}"></div>`;
+  document.getElementById('cpuPlay3').innerHTML = `<div class="card ${cpuCard3.suit}${cpuCard3.rank}"></div>`;
   if (userCard3.value > cpuCard3.value) {
-    console.log("User: " + userCard.value + userCard2.value + userCard3.value, "CPU: " + cpuCard.value + cpuCard2.value + cpuCard3.value);
     userDeck.push(userCard, userCard2, userCard3, cpuCard, cpuCard2, cpuCard3);
   } else {
-    console.log("User: " + userCard.value + userCard2.value + userCard3.value, "CPU: " + cpuCard.value + cpuCard2.value + cpuCard3.value);
     cpuDeck.push(userCard, userCard2, userCard3, cpuCard, cpuCard2, cpuCard3);
   }
 }
@@ -109,14 +116,14 @@ function makeWar(userCard, cpuCard) {
 function getOutcome() {
   if (userDeck.length === 52) {
     replay.style.visibility = 'visible';
-    msg.innerText = "You won the war!";
+    msg.innerText = "You managed the impossible...you won!";
     document.getElementById('win').play();
   } else if (userDeck.length === 0) {
-    replay.style.visibility = 'visible';
-    msg.innerText = "You lost the war!";
+      replay.style.visibility = 'visible';
+      msg.innerText = "Wow...you're not too good at this!";
   } else {
-    replay.style.visibility = 'hidden';
-    msg.innerText = "Keep battling!";
+      replay.style.visibility = 'hidden';
+      msg.innerText = "Keep battling!";
   }
 }
 
@@ -128,4 +135,3 @@ function render(userCard, cpuCard) {
 }
 
 init();
-deck.buildDeck();

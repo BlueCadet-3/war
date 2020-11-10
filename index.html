@@ -10,9 +10,10 @@
 </head>
 <body>
 
-  <audio id="shuffle" src="audio/shuffle.wav" autoplay="true"></audio>
-  <audio id="card-flick" src="audio/card-flick.ogg" autoplay="false"></audio>
-  <audio id="win" src="audio/win.wav" autoplay="false"></audio>
+  <audio id="shuffle" src="audio/shuffle.wav" autostart="true"></audio>
+  <audio id="card-flick" src="audio/card-flick.ogg" autostart="false"></audio>
+  <audio id="win" src="audio/win.wav" autostart="false"></audio>
+  <audio id="lose" src="audio/lose.wav" autostart="false"></audio>
 
   <header>
     <h1>War!</h1>
@@ -25,7 +26,7 @@
   </section>
 
   <main id="table">
-    <div class="card back" id="cpuOnDeck"><img src="/images/backs/blue.svg"></div>
+    <div class="card back" id="cpuOnDeck"></div>
     <div id="cpuPlay"></div>
     <div id="cpuPlay2"></div>
     <div id="cpuPlay3"></div>
