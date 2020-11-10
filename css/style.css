@@ -30,21 +30,29 @@ header {
   color: var(--txt-02);
 }
 
-#msg {
+#message {
   background-color: var(--bg-acc);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: 5vh;
   max-height: 5vh;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
   padding: 0.5vmin;
 }
 
+#msg {
+  position: absolute;
+}
+
 #userCount {
+  font-size: 3vmin;
+  font-weight: 700;
 }
 
 #cpuCount {
-  padding-left: ;
+  font-size: 3vmin;
+  font-weight: 700;
 }
 
 #table {
@@ -79,6 +87,20 @@ header {
 #userPlay {
   grid-row: 3;
   grid-column: 3;
+  display: flex;
+  justify-content: center;
+}
+
+#userPlay2 {
+  grid-row: 3;
+  grid-column: 4;
+  display: flex;
+  justify-content: center;
+}
+
+#userPlay3 {
+  grid-row: 3;
+  grid-column: 5;
   display: flex;
   justify-content: center;
 }

@@ -44,6 +44,7 @@ const userCount = document.getElementById('userCount');
 const userOnDeck = document.getElementById('userOnDeck');
 const userPlay = document.getElementById('userPlay');
 const replay = document.getElementById('replay');
+const cardFlick = document.getElementById('card-flick');
 
 /*----- event listeners -----*/
 
@@ -54,9 +55,10 @@ userOnDeck.addEventListener('click', makeBattle);
 /*----- functions -----*/
 
 function init() {
-  deck.buildDeck();
   shuffleDeck(deck);
+  document.getElementById('shuffle').play();
   dealCards(shufDeck);
+  render();
 }
 
 function shuffleDeck(deck) {
@@ -75,22 +77,19 @@ function dealCards(deck) {
 }
 
 function makeBattle() {
+  cardFlick.play();
   let userCard = userDeck.shift();
   let cpuCard = cpuDeck.shift();
   if (userCard.value === cpuCard.value) {
-    console.log("Going to war!");
-    console.log(userCard.value, cpuCard.value);
+    msg.innerText = "Going to war!";
     makeWar(userCard, cpuCard);
   } else if (userCard.value > cpuCard.value) {
-    console.log(userCard.value, cpuCard.value);
     userDeck.push(userCard, cpuCard);
   } else {
-    console.log(userCard.value, cpuCard.value);
     cpuDeck.push(cpuCard, userCard);
   }
-  render(userCard, cpuCard);
-  console.log(userDeck.length, cpuDeck.length);
   getOutcome();
+  render(userCard, cpuCard);
 }
 
 function makeWar(userCard, cpuCard) {
@@ -109,12 +108,15 @@ function makeWar(userCard, cpuCard) {
 
 function getOutcome() {
   if (userDeck.length === 52) {
-    console.log("You won the war!");
+    replay.style.visibility = 'visible';
+    msg.innerText = "You won the war!";
+    document.getElementById('win').play();
   } else if (userDeck.length === 0) {
-    console.log("You lose the war");
+    replay.style.visibility = 'visible';
+    msg.innerText = "You lost the war!";
   } else {
-    let outcome = null;
-    console.log("Keep battling!");
+    replay.style.visibility = 'hidden';
+    msg.innerText = "Keep battling!";
   }
 }
 
@@ -123,7 +125,7 @@ function render(userCard, cpuCard) {
   userPlay.innerHTML = `<div class="card ${userCard.suit}${userCard.rank}"></div>`;
   cpuCount.innerText = cpuDeck.length;
   userCount.innerText = userDeck.length;
-  replay.style.visibility = outcome ? 'visible' : 'hidden';
 }
 
 init();
+deck.buildDeck();
