@@ -116,14 +116,4 @@ function render(userCard, cpuCard) {
   cpuRow.innerHTML = `<div class="card ${cpuCard.suit}${cpuCard.rank}"></div>`;
 }
 
-// function render(deck, container) {
-//   container.innerHTML = '';
-//   // Let's build the cards as a string of HTML
-//   // Use reduce when you want to 'reduce' the array into a single thing - in this case a string of HTML markup 
-//   const cardsHtml = deck.reduce(function(html, card) {
-//     return html + `<div class="card ${card.face}"></div>`;
-//   }, '');
-//   container.innerHTML = cardsHtml;
-// }
-
 init();
