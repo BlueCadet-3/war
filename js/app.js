@@ -36,8 +36,8 @@ let cpuDeck = [];
 /*----- cached element references -----*/
 
 const msg = document.getElementById('msg');
-const userRow = document.getElementById('userRow');
-const cpuRow = document.getElementById('cpuRow');
+const cpuPlay = document.getElementById('cpuPlay');
+const userPlay = document.getElementById('userPlay');
 const replay = document.getElementById('replay');
 
 /*----- event listeners -----*/
@@ -112,8 +112,8 @@ function getOutcome() {
 }
 
 function render(userCard, cpuCard) {
-  userRow.innerHTML = `<div class="card ${userCard.suit}${userCard.rank}"></div>`;
-  cpuRow.innerHTML = `<div class="card ${cpuCard.suit}${cpuCard.rank}"></div>`;
+  cpuPlay.innerHTML = `<div class="card ${cpuCard.suit}${cpuCard.rank}"></div>`;
+  userPlay.innerHTML = `<div class="card ${userCard.suit}${userCard.rank}"></div>`;
 }
 
 init();
