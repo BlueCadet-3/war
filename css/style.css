@@ -30,27 +30,27 @@ header {
   color: var(--txt-02);
 }
 
-#message {
+#scoreboard {
   background-color: var(--bg-acc);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: 5vh;
   max-height: 5vh;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   padding: 0.5vmin;
 }
 
 #msg {
-  position: relative;
+  justify-content: center;
 }
 
-#userCount {
+#userHandSize {
   font-size: 3vmin;
   font-weight: 700;
 }
 
-#cpuCount {
+#cpuHandSize {
   font-size: 3vmin;
   font-weight: 700;
 }
@@ -67,9 +67,11 @@ header {
   font-size: 3.5vmin;
 }
 
-#cpuOnDeck {
+#cpuHand {
   grid-row: 1;
   grid-column: 4;
+  display: flex;
+  justify-content: center;
 }
 
 #cpuPlay {
@@ -93,9 +95,11 @@ header {
   justify-content: center;
 }
 
-#userOnDeck {
+#userHand {
   grid-row: 4;
   grid-column: 2;
+  display: flex;
+  justify-content: center;
 }
 
 #userPlay {

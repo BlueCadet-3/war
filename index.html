@@ -11,7 +11,7 @@
 <body>
 
   <audio id="shuffle" src="audio/shuffle.wav" autostart="true"></audio>
-  <audio id="card-flick" src="audio/card-flick.ogg" autostart="false"></audio>
+  <audio id="cardFlick" src="audio/card-flick.ogg" autostart="false"></audio>
   <audio id="win" src="audio/win.wav" autostart="false"></audio>
   <audio id="lose" src="audio/lose.wav" autostart="false"></audio>
 
@@ -19,25 +19,27 @@
     <h1>War!</h1>
   </header>
 
-  <section id="message">
-    <div id="userCount">26</div>
+  <section id="scoreboard">
+    <div id="userLabel">User</div>
+    <div id="userHandSize">26</div>
     <h3 id="msg">Good luck!</h3>
-    <div id="cpuCount">26</div>
+    <div id="cpuHandSize">26</div>
+    <div id="cpuLabel">CPU</div>
   </section>
 
   <main id="table">
-    <div class="card back" id="cpuOnDeck"></div>
+    <div class="card back" id="cpuHand"></div>
     <div id="cpuPlay"></div>
     <div id="cpuPlay2"></div>
     <div id="cpuPlay3"></div>
-    <div class="card back" id="userOnDeck"></div>
+    <div class="card back" id="userHand"></div>
     <div id="userPlay"></div>
     <div id="userPlay2"></div>
     <div id="userPlay3"></div>
   </main>
   
   <footer>
-    <button id="replay">Replay?</button>
+    <button id="replay">Deal?</button>
   </footer>
 </body>
 </html>
