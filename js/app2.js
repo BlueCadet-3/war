@@ -30,8 +30,8 @@ const deck = new Deck();
 /*----- app's state (variables) -----*/
 
 let shufDeck = [];
-let userDeck = [];
-let cpuDeck = [];
+let userHand = [];
+let cpuHand = [];
 let outcome = null;
 
 /*----- cached element references -----*/
@@ -68,18 +68,18 @@ userHandEl.addEventListener('click', makeBattle);
 /*----- functions -----*/
 
 function init() {
-  if (deck.cards.length ) {return;
+  if (deck.cards.length) {return;
   } else {
   deck.buildDeck();
   shuffleDeck(deck);
   dealCards(shufDeck);
+  cardShuffleSnd.play();
   getOutcome();
   render();
-}
+  }
 }
 
 function shuffleDeck(deck) {
-  cardShuffleSnd.play();
   const tempDeck = Array.from(deck.cards);
   while (tempDeck.length) {
     const rndIdx = Math.floor(Math.random() * tempDeck.length);
@@ -89,71 +89,38 @@ function shuffleDeck(deck) {
 
 function dealCards(deck) {
   while (shufDeck.length > 0) {
-    userDeck.push(shufDeck.shift());
-    cpuDeck.push(shufDeck.shift());
+    userHand.push(shufDeck.shift());
+    cpuHand.push(shufDeck.shift());
   }
 }
 
 function makeBattle() {
   cardFlickSnd.play();
-  let userCard = userDeck.shift();
-  let cpuCard = cpuDeck.shift();
+  let userCard = userHand.shift();
+  let cpuCard = cpuHand.shift();
   if (userCard.value === cpuCard.value) {
     msg.innerText = "Going to war!";
     makeWar(userCard, cpuCard);
   } else if (userCard.value > cpuCard.value) {
-    userDeck.push(userCard, cpuCard);
-    userPlay2.innerHTML = ``;
-    userPlay3.innerHTML = ``;
-    cpuPlay2.innerHTML = ``;
-    cpuPlay3.innerHTML = ``;
+    userHand.push(userCard, cpuCard);
   } else {
-    cpuDeck.push(cpuCard, userCard);
-    userPlay2.innerHTML = ``;
-    userPlay3.innerHTML = ``;
-    cpuPlay2.innerHTML = ``;
-    cpuPlay3.innerHTML = ``;
+    cpuHand.push(cpuCard, userCard);
   }
   getOutcome();
   render(userCard, cpuCard);
 }
 
 function makeWar(userCard, cpuCard) {
-  warSnd.play();
-  let userCard2 = userDeck.shift();
-  let userCard3 = userDeck.shift();
-  let cpuCard2 = cpuDeck.shift();
-  let cpuCard3 = cpuDeck.shift();
-  userPlay2.innerHTML = `<div class="card back"></div>`;
-  userPlay3.innerHTML = `<div class="card ${userCard3.suit}${userCard3.rank}"></div>`;
-  cpuPlay2.innerHTML = `<div class="card back"></div>`;
-  cpuPlay3.innerHTML = `<div class="card ${cpuCard3.suit}${cpuCard3.rank}"></div>`;
-  if (userCard3.value > cpuCard3.value) {
-    userDeck.push(userCard, userCard2, userCard3, cpuCard, cpuCard2, cpuCard3);
-  } else if (userCard3.value === cpuCard3.value) {
-      msg.innerText = "Wow...this one is a doozy!";
-      // userPlay.innerHTML = `<div class="card ${userCard3.suit}${userCard3.rank}"></div>`;
-      // cpuPlay.innerHTML = `<div class="card ${cpuCard3.suit}${cpuCard3.rank}"></div>`;
-      // let userCard4 = userDeck.shift();
-      // let cpuCard4 = cpuDeck.shift();
-      // let userCard5 = userDeck.shift();
-      // let cpuCard5 = cpuDeck.shift();
-      // userPlay2.innerHTML = `<div class="card ${userCard4.suit}${userCard4.rank}"></div>`;
-      // userPlay3.innerHTML = `<div class="card ${userCard5.suit}${userCard5.rank}"></div>`;
-      // cpuPlay2.innerHTML = `<div class="card ${cpuCard4.suit}${cpuCard4.rank}"></div>`;
-      // cpuPlay3.innerHTML = `<div class="card ${cpuCard5.suit}${cpuCard5.rank}"></div>`; 
+  
 
-  } else {
-      cpuDeck.push(userCard, userCard2, userCard3, cpuCard, cpuCard2, cpuCard3);
-    }
 }
 
 function getOutcome() {
-  if (userDeck.length === 52) {
+  if (userHand.length === 52) {
     winSnd.play();
     msg.innerText = "You managed the impossible...you won!";
     replayBtn.style.visibility = 'visible';
-  } else if (userDeck.length === 0) {
+  } else if (userHand.length === 0) {
       loseSnd.play();
       msg.innerText = "Wow...you're not too good at this!";
       replayBtn.style.visibility = 'visible';
@@ -164,8 +131,8 @@ function getOutcome() {
 }
 
 function render(userCard, cpuCard) {
-  cpuHandSizeEl.innerText = cpuDeck.length;
-  userHandSizeEl.innerText = userDeck.length;
+  cpuHandSizeEl.innerText = cpuHand.length;
+  userHandSizeEl.innerText = userHand.length;
   cpuPlay.innerHTML = `<div class="card ${cpuCard.suit}${cpuCard.rank}"></div>`;
   userPlay.innerHTML = `<div class="card ${userCard.suit}${userCard.rank}"></div>`;
 }

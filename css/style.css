@@ -1,17 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Stalinist+One&display=swap');
+
 * {
   box-sizing: border-box;
   padding: 0;
   border: 0;
   margin: 0;
-  font-family: 'Courier New', Courier, monospace;
 }
 
 :root {
   --bg-main: #000000;
-  --bg-acc: #FFFFFF;
+  --bg-acc: #F5E4AC;
   --table: #008C3D;
   --txt-01: #333333;
-  --txt-02: #444444;
+  --txt-02: #F20732;
 }
 
 body {
@@ -27,6 +28,7 @@ header {
   min-height: 10vh;
   max-height: 10vh;
   font-size: 2rem;
+  font-family: 'Stalinist One';
   color: var(--txt-02);
 }
 
@@ -43,16 +45,19 @@ header {
 
 #msg {
   justify-content: center;
+  font-family: 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #userHandSize {
   font-size: 3vmin;
   font-weight: 700;
+  font-family: Georgia;
 }
 
 #cpuHandSize {
   font-size: 3vmin;
   font-weight: 700;
+  font-family: Georgia;
 }
 
 #table {
