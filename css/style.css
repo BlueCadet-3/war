@@ -63,7 +63,7 @@ header {
 
 #table {
   background-color: var(--table);
-  background-image: url("/images/bg.jpg");
+  background-image: url("../images/bg.jpg");
   background-position: center;
   background-size: cover;
   height: 80vh;
