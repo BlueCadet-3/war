@@ -32,6 +32,8 @@ const deck = new Deck();
 let shufDeck = [];
 let userHand = [];
 let cpuHand = [];
+let userBattleHand = [];
+let cpuBattleHand = [];
 let outcome = null;
 
 /*----- cached element references -----*/
@@ -42,14 +44,8 @@ const cpuHandSizeEl = document.getElementById('cpuHandSize');
 
 const userHandEl = document.getElementById('userHand');
 const cpuHandEl = document.getElementById('cpuHand');
-
-const userPlay = document.getElementById('userPlay');
-const userPlay2 = document.getElementById('userPlay2');
-const userPlay3 = document.getElementById('userPlay3');
-
-const cpuPlay = document.getElementById('cpuPlay');
-const cpuPlay2 = document.getElementById('cpuPlay2');
-const cpuPlay3 = document.getElementById('cpuPlay3');
+const userBattleRow = document.getElementById('userBattleRow');
+const cpuBattleRow = document.getElementById('cpuBattleRow');
 
 const replayBtn = document.getElementById('replay');
 
@@ -64,18 +60,16 @@ const loseSnd = document.getElementById('lose');
 replayBtn.addEventListener('click', init);
 userHandEl.addEventListener('click', makeBattle);
 
-
 /*----- functions -----*/
 
 function init() {
+  cardShuffleSnd.play();
   if (deck.cards.length) {return;
   } else {
   deck.buildDeck();
   shuffleDeck(deck);
   dealCards(shufDeck);
-  cardShuffleSnd.play();
-  getOutcome();
-  render();
+  // render();
   }
 }
 
@@ -96,45 +90,49 @@ function dealCards(deck) {
 
 function makeBattle() {
   cardFlickSnd.play();
-  let userCard = userHand.shift();
-  let cpuCard = cpuHand.shift();
-  if (userCard.value === cpuCard.value) {
-    msg.innerText = "Going to war!";
-    makeWar(userCard, cpuCard);
-  } else if (userCard.value > cpuCard.value) {
-    userHand.push(userCard, cpuCard);
+  userBattleHand.push(userHand.shift());
+  cpuBattleHand.push(cpuHand.shift());
+  render(userBattleHand[0], cpuBattleHand[0]);
+  if (userBattleHand[0]["value"] === cpuBattleHand[0]["value"]) {
+    makeWar(userBattleHand, cpuBattleHand);
+  } else if (userBattleHand[0]["value"] > cpuBattleHand[0]["value"]) {
+    userHand.push(userBattleHand.shift(), cpuBattleHand.shift());
   } else {
-    cpuHand.push(cpuCard, userCard);
+    cpuHand.push(cpuBattleHand.shift(), userBattleHand.shift());
   }
-  getOutcome();
-  render(userCard, cpuCard);
+  getOutcome(userHand);
 }
 
-function makeWar(userCard, cpuCard) {
-  
-
+function makeWar(userBattleHand, cpuBattleHand) {
+  warSnd.play();
+  userBattleHand.push(userHand.shift(), userHand.shift());
+  cpuBattleHand.push(cpuHand.shift(), cpuHand.shift());
+  render(userBattleHand[0], cpuBattleHand[0]);
+  if (userBattleHand[2]["value"] === cpuBattleHand[2]["value"]) {
+    userBattleHand.push(userHand.shift(), userHand.shift());
+    cpuBattleHand.push(cpuHand.shift(), cpuHand.shift());
+  } else if (userBattleHand[2]["value"] > cpuBattleHand[2]["value"]) {
+    userHand.push(userBattleHand.splice(0, 3), cpuBattleHand.splice(0, 3));
+  } else {
+    cpuHand.push(cpuBattleHand.splice(0, 3), userBattleHand.splice(0, 3));
+  }
 }
 
-function getOutcome() {
+function getOutcome(userHand) {
   if (userHand.length === 52) {
     winSnd.play();
-    msg.innerText = "You managed the impossible...you won!";
-    replayBtn.style.visibility = 'visible';
-  } else if (userHand.length === 0) {
-      loseSnd.play();
-      msg.innerText = "Wow...you're not too good at this!";
-      replayBtn.style.visibility = 'visible';
-  } else {
-      msg.innerText = "Keep battling!";
-      replayBtn.style.visibility = 'hidden';
+    msg.innerText = "You accomplished the impossible...you win!";
+  } else if(userHand.length === 0) {
+    loseSnd.play();
+    msg.innerText = "You stink! Try harder next time!";
   }
 }
 
-function render(userCard, cpuCard) {
-  cpuHandSizeEl.innerText = cpuHand.length;
+function render(userBattleHand, cpuBattleHand) {
   userHandSizeEl.innerText = userHand.length;
-  cpuPlay.innerHTML = `<div class="card ${cpuCard.suit}${cpuCard.rank}"></div>`;
-  userPlay.innerHTML = `<div class="card ${userCard.suit}${userCard.rank}"></div>`;
+  cpuHandSizeEl.innerText = cpuHand.length;
+  userBattleRow.innerHTML = `<div class="card ${userBattleHand["suit"]}${userBattleHand["rank"]}">`;
+  cpuBattleRow.innerHTML = `<div class="card ${cpuBattleHand["suit"]}${cpuBattleHand["rank"]}"></div>`;
 }
 
 init();
