@@ -60,21 +60,21 @@ const loseSnd = document.getElementById('lose');
 
 userHandEl.addEventListener('click', makeBattle);
 warBtn.addEventListener('click', makeWar);
-replayBtn.addEventListener('click', init);
 
 /*----- functions -----*/
 
 function init() {
   cardShuffleSnd.play();
-  if (deck.cards.length) {return;
+  if (deck.cards.length) {
+    return;
   } else {
-  deck.buildDeck();
-  shuffleDeck(deck);
-  dealCards(shufDeck);
-  warBtn.style.visibility = 'hidden';
-  replayBtn.style.visibility = 'hidden';
-  render();
-  }
+      deck.buildDeck();
+      shuffleDeck(deck);
+      dealCards(shufDeck);
+      warBtn.style.visibility = 'hidden';
+      replayBtn.style.visibility = 'hidden';
+      render();
+      }
 }
 
 function shuffleDeck(deck) {
@@ -100,12 +100,14 @@ function makeBattle() {
   if (userBattleHand[userBattleHand.length -1].value === cpuBattleHand[cpuBattleHand.length -1].value) {
     warSnd.play();
     msg.innerText = 'Going to war!';
-    warBtn.style.visibility = 'visible';
     userHandEl.style.pointerEvents = 'none';
+    warBtn.style.visibility = 'visible';
   } else if (userBattleHand[userBattleHand.length -1].value > cpuBattleHand[cpuBattleHand.length -1].value) {
     userHand.push(userBattleHand.shift(), cpuBattleHand.shift());
+    msg.innerText = 'Wow...nice job!';
   } else {
     cpuHand.push(cpuBattleHand.shift(), userBattleHand.shift());
+    msg.innerText = 'Better luck next time!';
   }
   getOutcome();
 }
@@ -121,22 +123,24 @@ function makeWar() {
     cpuBattleHand.push(cpuHand.shift(), cpuHand.shift());
     userHandEl.style.pointerEvents = 'none';
     warBtn.style.visibility = 'visible';
-  } if (userBattleHand[userBattleHand.length -1].value > cpuBattleHand[cpuBattleHand.length -1].value) {
+  } if (cpuBattleHand.length < 3 ||  userBattleHand[userBattleHand.length -1].value > cpuBattleHand[cpuBattleHand.length -1].value) {
     userHand.push(...userBattleHand.splice(0), ...cpuBattleHand.splice(0));
-  } else {
+  } else (userBattleHand.length < 3); {
     cpuHand.push(...cpuBattleHand.splice(0), ...userBattleHand.splice(0));
   }
   getOutcome();
 }
 
 function getOutcome() {
-  if (userHand.length + userBattleHand.length === 52) {
+  if (userHand.length + userBattleHand.length >= 52) {
     winSnd.play();
+    replayBtn.style.visibility = 'visible';
     userHandEl.style.pointerEvents = 'none';
     cpuHandEl.innerHTML = "";
     msg.innerText = "You accomplished the impossible...you win!";
   } else if(userHand.length === 0) {
     loseSnd.play();
+    replayBtn.style.visibility = 'visible';
     userHandEl.style.pointerEvents = 'none';
     userHandEl.innerHTML = "";
     msg.innerText = "You stink! Try harder next time!";

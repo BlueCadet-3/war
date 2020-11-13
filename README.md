@@ -1,6 +1,7 @@
 # WAR!
 
 ## Gameplay
+<hr>
 
 * The objective of the game is to win all of the cards.
 
@@ -13,5 +14,30 @@
 * Game designer Greg Costikyan has observed that since there are no choices in the game, and all outcomes are random, it cannot be considered a game by some definitions. However, the rules often do not specify in which order the cards should be returned to the deck. If they are returned in a non-random order, the decision of putting one card before another after a win can change the overall outcome of the game. The effects of such decisions are more visible with smaller size decks as it is easier for a player to card count, however the decisions can still affect gameplay if taken in standard decks.
 
 * Source: [WikiPedia](https://en.wikipedia.org/wiki/War_(card_game))
+<hr>
 
-![WAR!](https://i.imgur.com/UxN2N05.png)
+![WAR!](https://i.imgur.com/L6Bl6sD.png)
+
+## Technologies Used
+<hr>
+
+* HTML
+* CSS
+* JS
+
+## Getting Started
+<hr>
+
+[GitHub Pages](https://bluecadet-3.github.io/war/)
+
+* This is a one player game versus one CPU
+
+* The user deck is represented by the deck in the bottom left corner
+
+* To initiate a turn, just click your deck!
+
+## Next Steps
+<hr>
+
+* Input user name
+* Additional players / decks
