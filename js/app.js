@@ -30,8 +30,10 @@ const deck = new Deck();
 /*----- app's state (variables) -----*/
 
 let shufDeck = [];
-let userDeck = [];
-let cpuDeck = [];
+let userHand = [];
+let cpuHand = [];
+let userBattleHand = [];
+let cpuBattleHand = [];
 let outcome = null;
 
 /*----- cached element references -----*/
@@ -42,16 +44,11 @@ const cpuHandSizeEl = document.getElementById('cpuHandSize');
 
 const userHandEl = document.getElementById('userHand');
 const cpuHandEl = document.getElementById('cpuHand');
-
-const userPlay = document.getElementById('userPlay');
-const userPlay2 = document.getElementById('userPlay2');
-const userPlay3 = document.getElementById('userPlay3');
-
-const cpuPlay = document.getElementById('cpuPlay');
-const cpuPlay2 = document.getElementById('cpuPlay2');
-const cpuPlay3 = document.getElementById('cpuPlay3');
+const userBattleRow = document.getElementById('userBattleRow');
+const cpuBattleRow = document.getElementById('cpuBattleRow');
 
 const replayBtn = document.getElementById('replay');
+const warBtn = document.getElementById('warBtn');
 
 const cardShuffleSnd = document.getElementById('shuffle');
 const cardFlickSnd = document.getElementById('cardFlick');
@@ -61,25 +58,26 @@ const loseSnd = document.getElementById('lose');
 
 /*----- event listeners -----*/
 
-replayBtn.addEventListener('click', init);
 userHandEl.addEventListener('click', makeBattle);
-
+warBtn.addEventListener('click', makeWar);
+replayBtn.addEventListener('click', init);
 
 /*----- functions -----*/
 
 function init() {
-  if (deck.cards.length ) {return;
+  cardShuffleSnd.play();
+  if (deck.cards.length) {return;
   } else {
   deck.buildDeck();
   shuffleDeck(deck);
   dealCards(shufDeck);
-  getOutcome();
+  warBtn.style.visibility = 'hidden';
+  replayBtn.style.visibility = 'hidden';
   render();
-}
+  }
 }
 
 function shuffleDeck(deck) {
-  cardShuffleSnd.play();
   const tempDeck = Array.from(deck.cards);
   while (tempDeck.length) {
     const rndIdx = Math.floor(Math.random() * tempDeck.length);
@@ -89,85 +87,67 @@ function shuffleDeck(deck) {
 
 function dealCards(deck) {
   while (shufDeck.length > 0) {
-    userDeck.push(shufDeck.shift());
-    cpuDeck.push(shufDeck.shift());
+    userHand.push(shufDeck.shift());
+    cpuHand.push(shufDeck.shift());
   }
 }
 
 function makeBattle() {
   cardFlickSnd.play();
-  let userCard = userDeck.shift();
-  let cpuCard = cpuDeck.shift();
-  if (userCard.value === cpuCard.value) {
-    msg.innerText = "Going to war!";
-    makeWar(userCard, cpuCard);
-  } else if (userCard.value > cpuCard.value) {
-    userDeck.push(userCard, cpuCard);
-    userPlay2.innerHTML = ``;
-    userPlay3.innerHTML = ``;
-    cpuPlay2.innerHTML = ``;
-    cpuPlay3.innerHTML = ``;
+  userBattleHand.push(userHand.shift());
+  cpuBattleHand.push(cpuHand.shift());
+  render();
+  if (userBattleHand[userBattleHand.length -1].value === cpuBattleHand[cpuBattleHand.length -1].value) {
+    warSnd.play();
+    msg.innerText = 'Going to war!';
+    warBtn.style.visibility = 'visible';
+    userHandEl.style.pointerEvents = 'none';
+  } else if (userBattleHand[userBattleHand.length -1].value > cpuBattleHand[cpuBattleHand.length -1].value) {
+    userHand.push(userBattleHand.shift(), cpuBattleHand.shift());
   } else {
-    cpuDeck.push(cpuCard, userCard);
-    userPlay2.innerHTML = ``;
-    userPlay3.innerHTML = ``;
-    cpuPlay2.innerHTML = ``;
-    cpuPlay3.innerHTML = ``;
+    cpuHand.push(cpuBattleHand.shift(), userBattleHand.shift());
   }
   getOutcome();
-  render(userCard, cpuCard);
 }
 
-function makeWar(userCard, cpuCard) {
-  warSnd.play();
-  let userCard2 = userDeck.shift();
-  let userCard3 = userDeck.shift();
-  let cpuCard2 = cpuDeck.shift();
-  let cpuCard3 = cpuDeck.shift();
-  userPlay2.innerHTML = `<div class="card back"></div>`;
-  userPlay3.innerHTML = `<div class="card ${userCard3.suit}${userCard3.rank}"></div>`;
-  cpuPlay2.innerHTML = `<div class="card back"></div>`;
-  cpuPlay3.innerHTML = `<div class="card ${cpuCard3.suit}${cpuCard3.rank}"></div>`;
-  if (userCard3.value > cpuCard3.value) {
-    userDeck.push(userCard, userCard2, userCard3, cpuCard, cpuCard2, cpuCard3);
-  } else if (userCard3.value === cpuCard3.value) {
-      msg.innerText = "Wow...this one is a doozy!";
-      // userPlay.innerHTML = `<div class="card ${userCard3.suit}${userCard3.rank}"></div>`;
-      // cpuPlay.innerHTML = `<div class="card ${cpuCard3.suit}${cpuCard3.rank}"></div>`;
-      // let userCard4 = userDeck.shift();
-      // let cpuCard4 = cpuDeck.shift();
-      // let userCard5 = userDeck.shift();
-      // let cpuCard5 = cpuDeck.shift();
-      // userPlay2.innerHTML = `<div class="card ${userCard4.suit}${userCard4.rank}"></div>`;
-      // userPlay3.innerHTML = `<div class="card ${userCard5.suit}${userCard5.rank}"></div>`;
-      // cpuPlay2.innerHTML = `<div class="card ${cpuCard4.suit}${cpuCard4.rank}"></div>`;
-      // cpuPlay3.innerHTML = `<div class="card ${cpuCard5.suit}${cpuCard5.rank}"></div>`; 
-
+function makeWar() {
+  userHandEl.style.pointerEvents = 'visible'; 
+  warBtn.style.visibility = 'hidden';
+  userBattleHand.push(userHand.shift(), userHand.shift());
+  cpuBattleHand.push(cpuHand.shift(), cpuHand.shift());
+  render();
+  while (userBattleHand[userBattleHand.length -1].value === cpuBattleHand[cpuBattleHand.length - 1].value) {
+    userBattleHand.push(userHand.shift(), userHand.shift());
+    cpuBattleHand.push(cpuHand.shift(), cpuHand.shift());
+    userHandEl.style.pointerEvents = 'none';
+    warBtn.style.visibility = 'visible';
+  } if (userBattleHand[userBattleHand.length -1].value > cpuBattleHand[cpuBattleHand.length -1].value) {
+    userHand.push(...userBattleHand.splice(0), ...cpuBattleHand.splice(0));
   } else {
-      cpuDeck.push(userCard, userCard2, userCard3, cpuCard, cpuCard2, cpuCard3);
-    }
+    cpuHand.push(...cpuBattleHand.splice(0), ...userBattleHand.splice(0));
+  }
+  getOutcome();
 }
 
 function getOutcome() {
-  if (userDeck.length === 52) {
+  if (userHand.length + userBattleHand.length === 52) {
     winSnd.play();
-    msg.innerText = "You managed the impossible...you won!";
-    replayBtn.style.visibility = 'visible';
-  } else if (userDeck.length === 0) {
-      loseSnd.play();
-      msg.innerText = "Wow...you're not too good at this!";
-      replayBtn.style.visibility = 'visible';
-  } else {
-      msg.innerText = "Keep battling!";
-      replayBtn.style.visibility = 'hidden';
+    userHandEl.style.pointerEvents = 'none';
+    cpuHandEl.innerHTML = "";
+    msg.innerText = "You accomplished the impossible...you win!";
+  } else if(userHand.length === 0) {
+    loseSnd.play();
+    userHandEl.style.pointerEvents = 'none';
+    userHandEl.innerHTML = "";
+    msg.innerText = "You stink! Try harder next time!";
   }
 }
 
-function render(userCard, cpuCard) {
-  cpuHandSizeEl.innerText = cpuDeck.length;
-  userHandSizeEl.innerText = userDeck.length;
-  cpuPlay.innerHTML = `<div class="card ${cpuCard.suit}${cpuCard.rank}"></div>`;
-  userPlay.innerHTML = `<div class="card ${userCard.suit}${userCard.rank}"></div>`;
+function render() {
+  userHandSizeEl.innerText = userHand.length + userBattleHand.length;
+  cpuHandSizeEl.innerText = cpuHand.length + cpuBattleHand.length;
+  userBattleRow.innerHTML = `<div class="card ${userBattleHand[userBattleHand.length - 1].suit}${userBattleHand[userBattleHand.length - 1].rank}"></div>`;
+  cpuBattleRow.innerHTML = `<div class="card ${cpuBattleHand[cpuBattleHand.length -1].suit}${cpuBattleHand[cpuBattleHand.length - 1].rank}"></div>`;
 }
 
 init();

@@ -108,9 +108,21 @@ footer {
   padding: 0.6vmin;
 }
 
+#warBtn {
+  grid-row: 4;
+  grid-column: 3;
+  height: 30%;
+  font-family: 'Stalinist One';
+  font-size: 1.6rem;
+  border: 4px dotted var(--table);
+  border-radius: 20px;
+  padding: 0.1vmin;
+}
+
 #replay {
   font-size: 0.8rem;
   border: 4px dotted var(--table);
   border-radius: 20px;
   padding: 0.6vmin;
+  pointer-events: ;
 }
